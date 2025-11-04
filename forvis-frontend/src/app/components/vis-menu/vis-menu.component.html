@@ -1,0 +1,36 @@
+<div *ngIf="showMenu" id="vis-menu-background">
+    <div class="btn-con">
+        <button class="btn btn-info" (click)="visualizeFile('vis_interaction')">Interaction graph (visjs)</button>
+        <button class="btn btn-info" (click)="visualizeFile('vis_factor')">Factor graph (visjs)</button>
+        <button class="btn btn-info" (click)="visualizeFile('vis_resolution')">Resolution graph (visjs)</button>
+        <button class="btn btn-info" (click)="visualizeFile('vis_matrix')">Matrix visualization</button>
+        <button class="btn btn-info" (click)="visualizeFile('vis_tree')">Tree visualization (visjs)</button>
+        <button class="btn btn-info" (click)="visualizeFile('vis_cluster')">Cluster visualization (visjs)</button>
+        <button class="btn btn-info" (click)="visualizeFile('vis_distribution')">Distribution chart (chartjs)</button>
+        <button class="btn btn-info" (click)="visualizeFile('vis_directed')">Direct Graphical Model (visjs)</button>
+        <button class="btn btn-info" (click)="visualizeFile('vis_2clause')">2-Clauses Interaction graph (visjs)</button>
+        <button class="btn btn-info" (click)="visualizeFile('vis_dpll')">DPLL Solver Visualization (visjs)</button>
+        <button class="btn btn-info" (click)="visualizeFile('vis_heatmap')">Heatmap (chartjs)</button>
+        <button class="btn btn-info" (click)="visualizeFile('raw')">Raw file</button>
+        <button class="btn btn-danger" (click)="close()">Close</button>
+    </div>
+</div>
+
+<div *ngIf="showConfirmation" id="vis-menu-confirmation">
+  <div class="btn-con">
+    <button class="btn btn-light text-justify" disabled>
+      <b>You have successfully submitted a visualization request! </b><br/> Processing large files may take a while.
+    </button>
+    <button class="btn btn-secondary" (click)="close()">Got it!</button>
+  </div>
+</div>
+
+<div *ngIf="showBadRequest" id="vis-menu-badrequest">
+  <div class="btn-con">
+    <button class="btn btn-light text-justify" disabled>
+      Oopsie Daisy! This task is already scheduled or even proceeded!<br/>Check <b>My visualizations</b> page for further information.
+    </button>
+    <button class="btn btn-secondary" (click)="close()">Got it!</button>
+  </div>
+</div>
+

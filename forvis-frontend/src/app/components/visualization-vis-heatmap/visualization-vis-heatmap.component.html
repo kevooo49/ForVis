@@ -1,0 +1,32 @@
+<div class="container">
+    <div *ngIf="errorMessage" class="alert alert-warning">
+        {{ errorMessage }}
+    </div>
+
+    <div class="sub-nav">
+        <div class="sub-nav-title">
+            <h3>Heatmap ({{ fileName() }})</h3>
+        </div>
+        <div class="sub-nav-content">
+            <div class="sub-nav-buttons">
+                <button class="btn btn-info" (click)="download()" [disabled]="loading()">Download</button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="info()" class="info-message">
+        {{ info() }}
+    </div>
+
+    <div class="container p-5">
+        <canvas #visualization id="visualization"></canvas>
+    </div>
+
+    <div *ngIf="loading()" class="loader">
+        <div class="loader-spinner"></div>
+        <div class="loading-message">
+            Loading visualization...
+        </div>
+    </div>
+
+</div>

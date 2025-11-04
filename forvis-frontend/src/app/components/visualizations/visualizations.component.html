@@ -1,0 +1,44 @@
+<div class="d-flex align-items-center p-3" *ngIf="isLoading">
+  <strong>Loading...</strong>
+  <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+</div>
+
+<div id="visualizations" class="container-fluid p-2" *ngIf="!isLoading">
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Status</th>
+      <th scope="col">File name</th>
+      <th scope="col">Visualization type</th>
+      <th scope="col">Visualization</th>
+      <th scope="col">Communities</th>
+      <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let vis of visualizations">
+        <td>{{ vis.id }}</td>
+      <td class="text-uppercase"><b> {{ vis.status }} </b></td>
+      <td>{{ vis.name }}</td>
+      <td>{{ getFormat(vis.json_format) }}</td>
+      <td *ngIf="isDone(vis)">
+        <button (click)="visualize(vis)" class="btn btn-info">Show</button>
+      </td>
+      <td *ngIf="isDone(vis) && canCreateCommunity(vis)">
+        <button (click)="visualizeCommunity(vis)" class="btn btn-info">Communities</button>
+      </td>
+      <td *ngIf="!(isDone(vis) && canCreateCommunity(vis))">
+        Does not support
+      </td>
+      <td *ngIf="!isDone(vis)">
+        <button (click)="checkProgress(vis)" class="btn btn-secondary">Check progress</button>
+      </td>
+
+      <td>
+        <button (click)="deleteVisualization(vis.id)" class="btn btn-danger">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

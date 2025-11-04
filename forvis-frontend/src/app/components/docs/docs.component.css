@@ -1,0 +1,151 @@
+.docs {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.docs_header {
+    text-align: center;
+    margin-bottom: var(--margin-top);
+}
+
+.docs_header h4 {
+    font-size: 2em;
+    color: var(--primary-color);
+}
+
+.docs_header h6 {
+    font-size: 1.2em;
+    color: var(--text-color);
+}
+
+/* Section Styles */
+.docs div {
+    margin-bottom: var(--margin-top);
+}
+
+h5 {
+    font-size: 1.5em;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+p {
+    line-height: 1.6;
+    font-size: 1.1em;
+}
+
+strong {
+    font-weight: bold;
+}
+
+.dimacsExample {
+    background-color: var(--white-color);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 10px 0;
+    font-family: monospace;
+    font-size: 1.1em;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--primary-hover-color);
+}
+
+/* Image Styling */
+.figure {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.figure img {
+    max-width: 100%;
+    height: auto;
+    border: 3px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.figure-caption {
+    font-size: 1em;
+    color: var(--text-color);
+    margin-top: 5px;
+}
+
+/* Button Styling */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.btn-info {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+
+.btn-info:hover {
+    background-color: var(--primary-hover-color);
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    color: var(--white-color);
+}
+
+.btn-success:hover {
+    background-color: var(--success-hover-color);
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: var(--white-color);
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Modal Styling */
+.modal-header {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: 15px;
+    border-radius: 5px 5px 0 0;
+}
+
+.modal-title {
+    margin: 0;
+}
+
+.modal-body {
+    padding: 20px;
+    background-color: var(--white-color);
+}
+
+.modal-footer {
+    padding: 10px;
+    background-color: var(--white-color);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.close {
+    color: var(--white-color);
+    font-size: 1.5em;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: var(--danger-color);
+}

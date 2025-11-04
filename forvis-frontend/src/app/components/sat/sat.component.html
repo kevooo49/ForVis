@@ -1,0 +1,62 @@
+<div id="sat-container">
+    <h3>Files</h3>
+    <br />
+
+    <h5>Upload new files</h5>
+    <input id="upload" type="file" (change)="onFileSelected($event)" multiple />
+    <br/>
+
+    <div style="margin-bottom: 40px">
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="50%">Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let file of selectedFiles">
+                <td class="filename"><strong>{{ file.name }}</strong></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <div>
+                Queue progress:
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploadProgress + '%' }"></div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button type="button" class="btn btn-success btn-s"
+                        (click)="uploadAll()" [disabled]="selectedFiles.length === 0 || isUploading">
+                    <span class="glyphicon glyphicon-upload"></span> Upload all
+                </button>
+                <button type="button" class="btn btn-danger btn-s"
+                        (click)="clearQueue()" [disabled]="selectedFiles.length === 0">
+                    <span class="glyphicon glyphicon-trash"></span> Remove all
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="files.length" class="header-files">
+        <h5 class="header-title">Your files</h5>
+        <button class="btn btn-info refresh" (click)="updateList()">Refresh</button>
+    </div>
+
+    <div id="files">
+        <div *ngFor="let file of files" class="file">
+            <div class="file-info">
+                {{ file.name }}
+            </div>
+            <div class="buttons">
+                <button class="btn btn-info" (click)="openVisMenu(file)">Visualize</button>
+                <button class="btn btn-danger" (click)="deleteFile(file)">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-vis-menu></app-vis-menu>

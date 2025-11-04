@@ -1,0 +1,22 @@
+<div class="sub-nav">
+    <div class="sub-nav-title">Factor Graph ({{ fileName() }})</div>
+    <div class="sub-nav-buttons">
+        <button (click)="startStab()" [disabled]="stabilizationInProgress()">Start Stabilization</button>
+        <button (click)="stopStab()" [disabled]="!stabilizationInProgress()">Stop Stabilization</button>
+        <button (click)="downloadPng()">Download as PNG</button>
+        <button (click)="downloadPdf()">Download as PDF</button>
+    </div>
+</div>
+
+<div *ngIf="info()" class="info-message">
+    {{ info() }}
+</div>
+
+<div id="visualization"></div>
+
+<div *ngIf="loading()" class="loader">
+    <div class="loader-spinner"></div>
+    <div *ngIf="stabilizationInProgress()" class="stabilization-message">
+        Stabilizing network...
+    </div>
+</div>

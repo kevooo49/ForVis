@@ -1,0 +1,31 @@
+<div class="sub-nav">
+    <div class="sub-nav-title">
+        <h3>Cluster graph ({{ fileName() }})</h3>
+    </div>
+    <div class="sub-nav-content">
+        <div class="sub-nav-buttons">
+            <button class="btn-draw" (click)="download()" [disabled]="loading()">Download</button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="info()" class="info-message">
+    {{ info() }}
+</div>
+
+<div class="visualization-container">
+    <div id="visualization" class="main-graph"></div>
+
+    <div class="zoom-section">
+        <h4 *ngIf="selectedCluster()">{{ selectedCluster() }}</h4>
+        <h4 *ngIf="!selectedCluster()">Cluster detail view</h4>
+        <div id="zoom" class="zoom-graph"></div>
+    </div>
+</div>
+
+<div *ngIf="loading()" class="loader">
+    <div class="loader-spinner"></div>
+    <div class="loading-message">
+        Loading visualization...
+    </div>
+</div>

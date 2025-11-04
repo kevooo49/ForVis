@@ -1,0 +1,59 @@
+<div id="maxsat-container">
+    <h3>Files</h3><br />
+    <h5>Upload new files</h5>
+    <input id="upload" type="file" ng2FileSelect [uploader]="uploader" multiple /><br/>
+    <div style="margin-bottom: 40px">
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="50%">Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of uploader.queue">
+                <td class="filename"><strong>{{ item?.file?.name }}</strong></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <div>
+                Queue progress:
+                <div class="progress" style="">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                </div>
+            </div>
+            <div class="buttons">
+                <button type="button" class="btn btn-success btn-s"
+                        (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                    <span class="glyphicon glyphicon-upload"></span> Upload all
+                </button>
+                <button type="button" class="btn btn-warning btn-s"
+                        (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                </button>
+                <button type="button" class="btn btn-danger btn-s"
+                        (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                    <span class="glyphicon glyphicon-trash"></span> Remove all
+                </button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="files.length" class="header-files">
+        <h5 class="header-title">Your files</h5>
+        <button class="btn btn-info refresh" (click)="updateList()">Refresh</button>
+    </div>
+    <div id="files">
+        <div *ngFor="let file of files" class="file">
+            <div class="file-info">
+                {{ file.name }}
+            </div>
+            <div class="buttons">
+                <button class="btn btn-info" (click)="openVisMenu(file)">Visualize</button>
+                <button class="btn btn-danger" (click)="deleteFile(file)">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-vis-menu></app-vis-menu>

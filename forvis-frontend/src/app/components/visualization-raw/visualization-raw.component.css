@@ -1,0 +1,6 @@
+#file-content {
+  padding: 4px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  background-color: rgba(226, 226, 226, 0.65);
+}

@@ -1,0 +1,104 @@
+upstream backend {
+    server backend:8000;
+}
+
+upstream frontend {
+    server host.docker.internal:4200; # for Windows-based
+    # server localhost:4200; # for Linux-based
+}
+
+server {
+    listen 80;
+    server_name _;
+
+    add_header Access-Control-Allow-Origin "http://localhost:4200" always;
+    add_header Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE" always;
+    add_header Access-Control-Allow-Headers "Authorization,Content-Type" always;
+    add_header Access-Control-Allow-Credentials "true" always;
+
+   # API routes forwarded to backend
+   location /api/profile/ {
+           if ($request_method = OPTIONS ) {
+                   add_header Access-Control-Allow-Origin "http://localhost:4200";
+                   add_header Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE";
+                   add_header Access-Control-Allow-Headers "Authorization,Content-Type";
+                   add_header Access-Control-Allow-Credentials "true";
+                   add_header Content-Length 0;
+                   add_header Content-Type text/plain;
+                   return 204;
+           }
+
+           add_header Access-Control-Allow-Origin "http://localhost:4200" always;
+
+           proxy_pass http://backend/profile/;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Proto $scheme;
+           client_max_body_size 50m;
+           proxy_connect_timeout 60s;
+           proxy_send_timeout 60s;
+           proxy_read_timeout 60s;
+   }
+
+    # Admin route forwarded to backend
+    location /admin/ {
+            proxy_pass http://backend/admin/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            add_header Access-Control-Allow-Credentials "true";
+    }
+
+    # Static admin assets served from backend
+    location /static/admin/ {
+            proxy_pass http://backend/static/admin/;
+    }
+
+    # All other requests go to frontend
+    location / {
+            if ($request_method = OPTIONS ) {
+                       add_header Access-Control-Allow-Origin "http://localhost:4200";
+                       add_header Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE";
+                       add_header Access-Control-Allow-Headers "Authorization,Content-Type";
+                       add_header Access-Control-Allow-Credentials "true";
+                       add_header Content-Length 0;
+                       add_header Content-Type text/plain;
+                       return 204;
+              }
+           add_header Access-Control-Allow-Origin "http://localhost:4200" always;
+            proxy_pass http://frontend/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            add_header Access-Control-Allow-Origin "http://localhost:4200" always;
+    }
+
+    location /api/auth/ {
+        if ($request_method = OPTIONS ) {
+            add_header Access-Control-Allow-Origin "http://localhost:4200";
+            add_header Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE";
+            add_header Access-Control-Allow-Headers "Authorization,Content-Type";
+            add_header Access-Control-Allow-Credentials "true";
+            add_header Content-Length 0;
+            add_header Content-Type text/plain;
+            return 204;
+        }
+
+        add_header Access-Control-Allow-Origin "http://localhost:4200" always;
+
+        proxy_pass http://backend/auth/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        client_max_body_size 50m;
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+}

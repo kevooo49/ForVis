@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@types/vis": "^4.21.27",
+    "chart.js": "^4.4.9",
+    "jspdf": "^3.0.1",
+    "vis": "^4.21.0-EOL"
+  }
+}

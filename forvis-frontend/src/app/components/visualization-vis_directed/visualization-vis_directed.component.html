@@ -1,0 +1,25 @@
+<div class="sub-nav">
+  <div class="sub-nav-title">
+    <h3>{{ fileName() }}</h3>
+  </div>
+  <div class="sub-nav-content">
+    <div class="sub-nav-buttons">
+      <button class="btn btn-info" (click)="startStab()" [disabled]="loading()">Start Stabilization</button>
+      <button class="btn btn-info" (click)="stopStab()" [disabled]="loading()">Stop Stabilization</button>
+      <button class="btn btn-info" (click)="download()" [disabled]="loading()">Download</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="info()" class="info-message">
+  {{ info() }}
+</div>
+
+<div id="visualization"></div>
+
+<div *ngIf="loading()" class="loader">
+  <div class="loader-spinner"></div>
+  <div *ngIf="stabilizationInProgress()" class="stabilization-message">
+    Network is stabilizing...
+  </div>
+</div>

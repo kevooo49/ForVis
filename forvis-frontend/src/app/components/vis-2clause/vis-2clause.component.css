@@ -1,0 +1,50 @@
+#vis-2clause-container {
+    padding: 20px;
+}
+
+.header-files {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header-title {
+    margin: 0;
+}
+
+#files {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.file {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.file-info {
+    flex-grow: 1;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.progress {
+    margin: 10px 0;
+}
+
+.table {
+    margin-bottom: 20px;
+}
+
+.filename {
+    word-break: break-all;
+} 

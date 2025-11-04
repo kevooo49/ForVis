@@ -1,0 +1,45 @@
+<div class="subnav">
+  <h3>Distribution chart ({{ fileName }})</h3>
+  <div id="info" *ngIf="info">
+    <div id="message" class="alert alert-info">{{ info }}</div>
+  </div>
+</div>
+
+<div class="container form-group mr-auto align-content-center">
+    <form>
+      <label class="col-md-6" for="chartForm">
+        Select chart form:
+      </label>
+      <ng-select id="chartForm"
+                 [items]="chartForm"
+                 bindLabel="description"
+                 bindValue="value"
+                 [(ngModel)]="selectedChartForm"
+                 [ngModelOptions]="{standalone: true}"
+            >
+      </ng-select>
+
+    <label class="col-md-6" for="topPercentage">
+      Select the percent of best results you'd like to see:
+    </label>
+    <ng-select id="topPercentage"
+               [items]="topPercentage"
+               bindLabel="description"
+               bindValue="value"
+               [(ngModel)]="selectedTopPercentage"
+               [ngModelOptions]="{standalone: true}"
+               >
+    </ng-select>
+
+    <button type="button" class="btn btn-primary mt-3 mb-3" (click)="onFilter()">
+      Filter
+    </button>
+  </form>
+</div>
+
+<div *ngIf="loading" class="loader"></div>
+
+<div class="container p-5">
+  <canvas #visualization id="visualization"> {{ visualization }}</canvas>
+</div>
+

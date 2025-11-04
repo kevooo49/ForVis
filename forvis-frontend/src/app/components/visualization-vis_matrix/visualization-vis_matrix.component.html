@@ -1,0 +1,34 @@
+<div class="subnav">
+    <h3>Matrix ({{ fileName() }})</h3>
+    <div class="buttons">
+        <button class="btn btn-info" (click)="selectMode(0)" [disabled]="selectedMode() == 0">Mode 0</button>
+        <button class="btn btn-info" (click)="selectMode(1)" [disabled]="selectedMode() == 1">Mode 1</button>
+        <button class="btn btn-info" (click)="selectMode(2)" [disabled]="selectedMode() == 2">Mode 2</button>
+    </div>
+    <div class="buttons">
+        <button class="btn btn-info" (click)="switchColors()">{{getColorButtonText()}}</button>
+    </div>
+    <div id="info" *ngIf="info()">
+        <div id="message" class="alert alert-info">{{ info() }}</div>
+    </div>
+</div>
+<div id="visualization" *ngIf="!loading()" style="text-align: center">
+    <div id="table-container" style="display: inline-block">
+            <table class="vis-table">
+                <tr>
+                    <th>#</th>
+                    <th *ngFor="let label of matrix()?.labels">
+                        {{label}}
+                    </th>
+                </tr>
+                <tr *ngFor="let row of matrix()?.rows; let r = index">
+                    <td [ngStyle]="{'font-weight': 'bold'}">{{matrix()?.labels?.[r] || ''}}</td>
+                    <td *ngFor="let dependency of row.dependencies; let c = index" [ngStyle]="getCellStyle(dependency, r, c)">
+                        {{getCellContent(dependency)}}
+                    </td>
+                </tr>
+            </table>
+    </div>
+    
+</div>
+<div *ngIf="loading()" class="loader"></div>

@@ -1,0 +1,188 @@
+/* Loading Spinner Styles */
+.spinner-border {
+  margin-left: 15px;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-width: 0.2em;
+  color: #007bff;
+}
+
+/* Container Styles */
+#visualizations {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 20px !important;
+  margin-top: 20px;
+}
+
+/* Table Styles */
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.thead-dark {
+  background-color: #343a40;
+  color: white;
+}
+
+.thead-dark th {
+  border: none;
+  padding: 12px 15px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.table th:first-child {
+  border-top-left-radius: 6px;
+}
+
+.table th:last-child {
+  border-top-right-radius: 6px;
+}
+
+.table td {
+  padding: 12px 15px;
+  vertical-align: middle;
+  border-top: 1px solid #dee2e6;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.04);
+}
+
+/* Status Styling */
+.text-uppercase b {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+tr td.text-uppercase b:contains("DONE") {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+tr td.text-uppercase b:contains("PENDING") {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+tr td.text-uppercase b:contains("FAILED") {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Button Styles */
+.btn {
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.btn-info:hover {
+  background-color: #138496;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .table thead {
+    display: none;
+  }
+
+  .table, .table tbody, .table tr, .table td {
+    display: block;
+    width: 100%;
+  }
+
+  .table tr {
+    margin-bottom: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+    border-top: none;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .table td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 15px;
+    font-weight: bold;
+    text-align: left;
+    color: #495057;
+  }
+
+  .table td:last-child {
+    border-bottom: none;
+  }
+}
+
+/* Utility Classes */
+.d-flex {
+  display: flex !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
+.p-3 {
+  padding: 1rem !important;
+}
+
+.p-2 {
+  padding: 0.5rem !important;
+}
+
+.ml-auto {
+  margin-left: auto !important;
+}
+
+.container-fluid {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}

@@ -1,0 +1,88 @@
+#vis-menu-background,
+#vis-menu-confirmation,
+#vis-menu-badrequest {
+    background-color: rgba(25, 25, 25, 0.92);
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    position: fixed;
+    overflow: hidden;
+}
+
+.btn-con {
+    max-width: 600px;
+    margin: 80px auto 0;
+    padding: 40px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn {
+    width: 320px;
+    margin: 0 auto 8px;
+    padding: 12px 0;
+    border-radius: 4px;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-info {
+    background-color: #f8f9fa;
+    color: #212529;
+    border: 1px solid #dee2e6;
+}
+
+.btn-info:hover {
+    background-color: #e9ecef;
+}
+
+.btn-danger {
+    background-color: #212529;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #343a40;
+}
+
+.btn-secondary {
+    background-color: #495057;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #6c757d;
+}
+
+.btn-light {
+    background-color: transparent;
+    color: #f8f9fa;
+    text-align: center;
+    border: none;
+    box-shadow: none;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.btn-light b {
+    color: #fff;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .btn-con {
+        width: 90%;
+        padding: 30px 20px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

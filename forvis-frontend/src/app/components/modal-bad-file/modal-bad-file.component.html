@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h4 class="modal-title">File not proceeded correctly</h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>File was not proceeded correctly. It seems that it's not in correct Dimacs format.</p>
+</div>
+<div class="modal-footer">
+
+  <button
+    type="button"
+    ngbAutofocus
+    class="btn btn-danger"
+    (click)="activeModal.dismiss('Cancel click')"
+  >
+    Got it!
+  </button>
+</div>
