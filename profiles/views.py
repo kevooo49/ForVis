@@ -16,7 +16,7 @@ from rest_framework.views import APIView
 from rest_framework_jwt.views import ObtainJSONWebToken
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-
+from celery.result import AsyncResult
 
 
 from profiles.models import Profile
@@ -175,21 +175,166 @@ class RegistrationView(CreateAPIView):
 
         return Response(status=200)
 
-@method_decorator(csrf_exempt, name='dispatch')
+# @method_decorator(csrf_exempt, name='dispatch')
+# class SatFileUploadView(APIView):
+#     parser_classes = (MultiPartParser,)
+#     permission_classes = (AllowAny,)
+
+#     def put(self, request, filename):
+#         file_obj = request.FILES['file']
+
+#         INFO_LINE_REGEX = re.compile(r'^p\s+cnf\s+[1-9]\d*\s+[1-9]\d*\s*$')
+#         COMMENT_LINE_REGEX = re.compile(r'^\s*c\b.*$', re.IGNORECASE)
+#         CNF_LINE_REGEX = re.compile(r'^\s*(-?[1-9]\d*\s+)*0\s*$')
+
+#         current_user = request.user
+#         profile = get_profile(current_user)
+
+#         text_file, created = TextFile.objects.get_or_create(
+#             name=filename,
+#             profile=profile,
+#             content=file_obj,
+#             kind='sat'
+#         )
+
+#         if not created:
+#             text_file.content = file_obj
+#             text_file.kind = 'sat'
+#             text_file.save()
+
+#         success = True
+
+#         with open(text_file.content.path, 'r', encoding='utf-8', errors='ignore', newline=None) as f:
+#             raw = f.read().splitlines()
+#             lines_amount = sum(
+#                 1 for line in raw
+#                 if line.lstrip().startswith(('p', 'P', 'c', 'C')) is False and line.strip() != ''
+#             )
+
+#             for idx, line in enumerate(raw):
+#                 if idx == 0 and line and line[0] == '\ufeff':
+#                     line = line[1:]
+#                 s = line.rstrip()
+
+#                 if not s or s.isspace():
+#                     success = False
+#                     break
+
+#                 if s.lstrip().lower().startswith('c'):
+#                     if not COMMENT_LINE_REGEX.match(s):
+#                         success = False
+#                         break
+#                     continue
+
+#                 if s.lstrip().lower().startswith('p'):
+#                     if not INFO_LINE_REGEX.match(s):
+#                         success = False
+#                         break
+#                     parts = s.split()
+#                     try:
+#                         declared = int(parts[3])
+#                     except Exception:
+#                         success = False
+#                         break
+#                     if declared != lines_amount:
+#                         success = False
+#                         break
+#                     continue
+
+#                 if not CNF_LINE_REGEX.match(s):
+#                     success = False
+#                     break
+
+#         if(success):
+#             return Response(status=204)
+#         else:
+#             return Response(status=400)
+
+# @method_decorator(csrf_exempt, name='dispatch')
+# class MaxSatFileUploadView(APIView):
+#     parser_classes = (MultiPartParser,)
+#     permission_classes = (AllowAny,)
+
+#     def put(self, request, filename):
+#         file_obj = request.FILES['file']
+
+
+#         INFO_LINE_REGEX = re.compile(r'^p\s+cnf\s+[1-9]\d*\s+[1-9]\d*\s*$')
+#         COMMENT_LINE_REGEX = re.compile(r'^\s*c\b.*$', re.IGNORECASE)
+#         CNF_LINE_REGEX = re.compile(r'^\s*(-?[1-9]\d*\s+)*0\s*$')
+
+#         current_user = request.user
+#         profile = get_profile(current_user)
+
+#         text_file, created = TextFile.objects.get_or_create(
+#             name=filename,
+#             profile=profile,
+#             content=file_obj,
+#             kind='maxsat'
+#         )
+
+#         if not created:
+#             text_file.content = file_obj
+#             text_file.kind = 'maxsat'
+#             text_file.save()
+
+#         success = True
+
+#         with open(text_file.content.path, 'r', encoding='utf-8', errors='ignore', newline=None) as f:
+#             raw = f.read().splitlines()
+#             lines_amount = sum(
+#                 1 for line in raw
+#                 if line.lstrip().startswith(('p', 'P', 'c', 'C')) is False and line.strip() != ''
+#             )
+
+#             for idx, line in enumerate(raw):
+#                 if idx == 0 and line and line[0] == '\ufeff':
+#                     line = line[1:]
+#                 s = line.rstrip()
+
+#                 if not s or s.isspace():
+#                     success = False
+#                     break
+
+#                 if s.lstrip().lower().startswith('c'):
+#                     if not COMMENT_LINE_REGEX.match(s):
+#                         success = False
+#                         break
+#                     continue
+
+#                 if s.lstrip().lower().startswith('p'):
+#                     if not INFO_LINE_REGEX.match(s):
+#                         success = False
+#                         break
+#                     parts = s.split()
+#                     try:
+#                         declared = int(parts[3])
+#                     except Exception:
+#                         success = False
+#                         break
+#                     if declared != lines_amount:
+#                         success = False
+#                         break
+#                     continue
+
+#                 if not CNF_LINE_REGEX.match(s):
+#                     success = False
+#                     break
+
+#         if (success):
+#             return Response(status=204)
+#         else:
+#             return Response(status=400)
+
 class SatFileUploadView(APIView):
     parser_classes = (MultiPartParser,)
-    permission_classes = (AllowAny,)
 
     def put(self, request, filename):
         file_obj = request.FILES['file']
 
-        # INFO_LINE_REGEX = re.compile('^p cnf [1-9][0-9]* [1-9][0-9]*$')
-        # COMMENT_LINE_REGEX = re.compile('^c .*$')
-        # CNF_LINE_REGEX = re.compile('^((-?[1-9]\d*)\s)*0$')
-
-        INFO_LINE_REGEX = re.compile(r'^p\s+cnf\s+[1-9]\d*\s+[1-9]\d*\s*$')
-        COMMENT_LINE_REGEX = re.compile(r'^\s*c\b.*$', re.IGNORECASE)
-        CNF_LINE_REGEX = re.compile(r'^\s*(-?[1-9]\d*\s+)*0\s*$')
+        INFO_LINE_REGEX = re.compile('^p cnf [1-9][0-9]* [1-9][0-9]*$')
+        COMMENT_LINE_REGEX = re.compile('^c .*$')
+        CNF_LINE_REGEX = re.compile('^((-?[1-9]\d*)\s)*0$')
 
         current_user = request.user
         profile = get_profile(current_user)
@@ -201,79 +346,43 @@ class SatFileUploadView(APIView):
             kind='sat'
         )
 
-        if not created:
-            text_file.content = file_obj
-            text_file.kind = 'sat'
-            text_file.save()
-
         success = True
 
-        with open(text_file.content.path, 'r', encoding='utf-8', errors='ignore', newline=None) as f:
-            raw = f.read().splitlines()  # bez końcowych \n i \r
-            # policz realną liczbę klauzul (nie komentarzy i nie nagłówka)
-            lines_amount = sum(
-                1 for line in raw
-                if line.lstrip().startswith(('p', 'P', 'c', 'C')) is False and line.strip() != ''
-            )
-
-            for idx, line in enumerate(raw):
-                # usuń BOM z pierwszej linii i zbędne białe znaki
-                if idx == 0 and line and line[0] == '\ufeff':
-                    line = line[1:]
-                s = line.rstrip()
-
-                if not s or s.isspace():
-                    # pusta linia – nie dopuszczamy w DIMACS, ale jak chcesz możesz ją pominąć:
-                    success = False
-                    break
-
-                if s.lstrip().lower().startswith('c'):
-                    if not COMMENT_LINE_REGEX.match(s):
+        with open(text_file.content.path) as f:
+            text = File(f)
+            lines_amount = get_lines_amount_for(f)
+            for index, line in enumerate(text):
+                if (not (is_comment(line) or is_info(line))):
+                    if(not CNF_LINE_REGEX.match(line)):
                         success = False
                         break
-                    # komentarze nie wpływają na licznik klauzul – nic nie zmieniamy
-                    continue
-
-                if s.lstrip().lower().startswith('p'):
-                    if not INFO_LINE_REGEX.match(s):
+                elif is_comment(line):
+                    lines_amount -= 1
+                    if (not COMMENT_LINE_REGEX.match(line)):
                         success = False
                         break
-                    # sprawdź zgodność liczby klauzul
-                    parts = s.split()
-                    try:
-                        declared = int(parts[3])
-                    except Exception:
+                elif is_info(line):
+                    lines_amount -= 1
+                    if (not INFO_LINE_REGEX.match(line) or
+                        int (line.replace("\n", "").split(" ")[3]) != lines_amount):
                         success = False
                         break
-                    if declared != lines_amount:
-                        success = False
-                        break
-                    continue
-
-                # linia klauzuli
-                if not CNF_LINE_REGEX.match(s):
-                    success = False
-                    break
 
         if(success):
             return Response(status=204)
         else:
             return Response(status=400)
 
-@method_decorator(csrf_exempt, name='dispatch')
+
 class MaxSatFileUploadView(APIView):
     parser_classes = (MultiPartParser,)
-    permission_classes = (AllowAny,)
 
     def put(self, request, filename):
         file_obj = request.FILES['file']
 
-        # INFO_LINE_REGEX = re.compile('^p cnf [1-9][0-9]* [1-9][0-9]*$')
-        # COMMENT_LINE_REGEX = re.compile('^c .*$')
-        # CNF_LINE_REGEX = re.compile('^((-?[1-9]\d*)\s)*0$')
-        INFO_LINE_REGEX = re.compile(r'^p\s+cnf\s+[1-9]\d*\s+[1-9]\d*\s*$')
-        COMMENT_LINE_REGEX = re.compile(r'^\s*c\b.*$', re.IGNORECASE)
-        CNF_LINE_REGEX = re.compile(r'^\s*(-?[1-9]\d*\s+)*0\s*$')
+        INFO_LINE_REGEX = re.compile('^p cnf [1-9][0-9]* [1-9][0-9]*$')
+        COMMENT_LINE_REGEX = re.compile('^c .*$')
+        CNF_LINE_REGEX = re.compile('^((-?[1-9]\d*)\s)*0$')
 
         current_user = request.user
         profile = get_profile(current_user)
@@ -285,60 +394,27 @@ class MaxSatFileUploadView(APIView):
             kind='maxsat'
         )
 
-        if not created:
-        # przy kolejnym uploadzie z tą samą nazwą – aktualizuj plik!
-            text_file.content = file_obj
-            text_file.kind = 'maxsat'  # w MaxSat odpowiednio 'maxsat'
-            text_file.save()
-
         success = True
 
-        with open(text_file.content.path, 'r', encoding='utf-8', errors='ignore', newline=None) as f:
-            raw = f.read().splitlines()  # bez końcowych \n i \r
-            # policz realną liczbę klauzul (nie komentarzy i nie nagłówka)
-            lines_amount = sum(
-                1 for line in raw
-                if line.lstrip().startswith(('p', 'P', 'c', 'C')) is False and line.strip() != ''
-            )
-
-            for idx, line in enumerate(raw):
-                # usuń BOM z pierwszej linii i zbędne białe znaki
-                if idx == 0 and line and line[0] == '\ufeff':
-                    line = line[1:]
-                s = line.rstrip()
-
-                if not s or s.isspace():
-                    # pusta linia – nie dopuszczamy w DIMACS, ale jak chcesz możesz ją pominąć:
-                    success = False
-                    break
-
-                if s.lstrip().lower().startswith('c'):
-                    if not COMMENT_LINE_REGEX.match(s):
+        with open(text_file.content.path) as f:
+            text = File(f)
+            lines_amount = get_lines_amount_for(f)
+            for index, line in enumerate(text):
+                if (not (is_comment(line) or is_info(line))):
+                    if (not CNF_LINE_REGEX.match(line)):
                         success = False
                         break
-                    # komentarze nie wpływają na licznik klauzul – nic nie zmieniamy
-                    continue
-
-                if s.lstrip().lower().startswith('p'):
-                    if not INFO_LINE_REGEX.match(s):
+                elif is_comment(line):
+                    lines_amount -= 1
+                    if (not COMMENT_LINE_REGEX.match(line)):
                         success = False
                         break
-                    # sprawdź zgodność liczby klauzul
-                    parts = s.split()
-                    try:
-                        declared = int(parts[3])
-                    except Exception:
+                elif is_info(line):
+                    lines_amount -= 1
+                    if (not INFO_LINE_REGEX.match(line) or
+                            int(line.replace("\n", "").split(" ")[3]) != lines_amount):
                         success = False
                         break
-                    if declared != lines_amount:
-                        success = False
-                        break
-                    continue
-
-                # linia klauzuli
-                if not CNF_LINE_REGEX.match(s):
-                    success = False
-                    break
 
         if (success):
             return Response(status=204)
@@ -431,4 +507,3 @@ class ObtainLoginTokenView(ObtainJSONWebToken):
                 pass
 
         return result
-

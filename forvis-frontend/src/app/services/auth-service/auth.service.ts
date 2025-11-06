@@ -15,7 +15,12 @@ export class AuthService implements IAuthService {
   private baseUrl = `${Environment.baseUrl}/auth`;
   private authenticated$ = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    const token = this.getToken();
+    if (token) {
+      this.verifyTokenOnInit(token);
+    }
+  }
 
   get authenticated(): Observable<boolean> {
     return this.authenticated$.asObservable();
@@ -24,6 +29,19 @@ export class AuthService implements IAuthService {
   private getToken(): string | null {
     return localStorage.getItem('token');
   }
+
+  private verifyTokenOnInit(token: string): void {
+    this.http.post(`${this.baseUrl}/api-token-verify/`, { token }).pipe(
+      map(() => {
+        this.authenticated$.next(true);
+      }),
+      catchError(() => {
+        this.authenticated$.next(false);
+        localStorage.removeItem('token');
+        return of(false);
+      })
+    ).subscribe();
+  }  
 
   private setAuthHeaders(headers: HttpHeaders = new HttpHeaders()): HttpHeaders {
     const token = this.getToken();
