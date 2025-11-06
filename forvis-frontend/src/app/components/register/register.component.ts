@@ -37,8 +37,7 @@ export class RegisterComponent {
   }
 
   register() {
-    console.log("kajwndkjawd");
-    this.user.username = this.user.email;
+    this.user.username = this.user.name;
     if (this.user) {
       this.registrationService.register(this.user).subscribe({
         next: () => {

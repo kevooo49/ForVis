@@ -1,4 +1,4 @@
-<!-- sat.component.html -->
+<!--
 <div id="register-form" class="register-container">
   <h2 class="register-title">Register</h2>
   <p class="section-title">Personal information</p>
@@ -52,4 +52,43 @@
           (click)="register()">
     Register
   </button>
-</div>
+</div> -->
+
+<form id="register-form" class="register-container" (ngSubmit)="register()" #registerForm="ngForm">
+  <h2 class="register-title">Register</h2>
+
+  <p class="section-title">Personal information</p>
+
+  <div class="form-group">
+    <input id="firstname" name="firstname" type="text" class="form-control" required
+           [(ngModel)]="user.firstname" #firstname="ngModel" placeholder="First name">
+  </div>
+
+  <div class="form-group">
+    <input id="lastname" name="lastname" type="text" class="form-control" required
+           [(ngModel)]="user.lastname" #lastname="ngModel" placeholder="Lastname">
+  </div>
+
+  <div class="form-group">
+    <input id="email" name="email" type="email" class="form-control" required
+           [(ngModel)]="user.email" #email="ngModel" placeholder="Email">
+  </div>
+
+  <p class="section-title">Account information</p>
+
+  <div class="form-group">
+    <input id="name" name="name" type="text" class="form-control" required
+           [(ngModel)]="user.name" #name="ngModel" placeholder="Username">
+  </div>
+
+  <div class="form-group">
+    <input id="password" type="password" name="password" class="form-control" required
+           [(ngModel)]="user.password" #password="ngModel" placeholder="Password">
+  </div>
+
+  <button class="btn btn-block btn-register"
+          [disabled]="!registerForm.valid"
+          type="submit">
+    Register
+  </button>
+</form>
