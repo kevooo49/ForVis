@@ -1,3 +1,3 @@
 export const Environment = {
-  baseUrl: '/api/profile'
+  baseUrl: '/api'
 };

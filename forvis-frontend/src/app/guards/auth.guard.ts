@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../services/auth-service/auth.service';
-import { map, catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +16,14 @@ export class AuthGuard implements CanActivate {
         if (isAuth) {
           return true;
         } else {
-          this.router.navigate(['/login']);
-          return false;
+          return this.router.createUrlTree(['/login'], {
+            queryParams: { returnUrl: '/cnf-uploader' }
+          });
         }
       }),
-      catchError(() => {
-        this.router.navigate(['/login']);
-        return of(false);
-      })
+      catchError(() =>
+        of(this.router.createUrlTree(['/login'], { queryParams: { returnUrl: '/cnf-uploader' } }))
+      )
     );
   }
 }

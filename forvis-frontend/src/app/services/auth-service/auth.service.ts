@@ -85,16 +85,18 @@ export class AuthService implements IAuthService {
 
     return this.http.post<any>(`${this.baseUrl}/api-token-verify/`, { token }).pipe(
       map(response => {
-        const isAuthenticated = response.ok ?? false;
-        this.authenticated$.next(isAuthenticated);
-        return isAuthenticated;
+        // jeśli backend zwróci 200 OK – token poprawny
+        this.authenticated$.next(true);
+        return true;
       }),
       catchError(error => {
+        console.warn('Token verification failed:', error);
         this.authenticated$.next(false);
         return of(false);
       })
     );
   }
+
 
   logout(): void {
     this.authenticated$.next(false);

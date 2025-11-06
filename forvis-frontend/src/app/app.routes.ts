@@ -31,7 +31,8 @@ export const routes: Routes = [
   { path: 'account', component: AccountEditComponent },
   { path: 'docs', component: DocsComponent },
   { path: 'sat', component: SatComponent, canActivate: [AuthGuard] },
-  { path: 'max-sat', component: MaxSatComponent },
+  // { path: 'sat', component: SatComponent },
+  { path: 'max-sat', component: MaxSatComponent, canActivate: [AuthGuard] },
   { path: 'visualizations', component: VisualizationsComponent },
   { path: 'visualization-vis_2clause/:f/:name/:kind', component: VisualizationVis2ClauseComponent },
   { path: 'visualization-vis_factor/:f/:name/:kind', component: VisualizationVisFactorComponent },
@@ -48,6 +49,6 @@ export const routes: Routes = [
   { path: 'visualization-vis-community/:f/:name/:kind', component: VisualizationVisCommunityComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'cnf-uploader', component: CnfUploader },
-  { path: '**', redirectTo: 'login' },
-  // { path: '**', redirectTo: '/home' }
+  // { path: '**', redirectTo: 'login' },
+  { path: '**', redirectTo: '/home' }
 ];
