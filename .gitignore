@@ -3,4 +3,5 @@ node_modules/
 
 __pycache__/
 *.pyc
-forvis-frontend/dist/forvis-frontend/.angular/
+forvis-frontend/dist/
+forvis-frontend/.angular/
